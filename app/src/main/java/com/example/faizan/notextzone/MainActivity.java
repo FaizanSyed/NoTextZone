@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     SmsManager smsManager;
     EditText message;
     Button sendButton;
-    String TAG = "SEND";
+    private static final String TAG = "SEND";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
