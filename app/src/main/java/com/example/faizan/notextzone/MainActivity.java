@@ -29,9 +29,8 @@ public class MainActivity extends AppCompatActivity {
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                smsManager.sendTextMessage("5556", null, "HEY THERE BUD", null, null);
                 try {
-                    smsManager.sendTextMessage("5556", null, "HEY THERE BUD", null, null);
+                    smsManager.sendTextMessage("5195807115", null, "HEY THERE BUD", null, null);
                 } catch (SecurityException se){
                     Log.i(TAG, "Don't have permission!");
                     Toast.makeText(MainActivity.this, "DON'T HAVE PERMISSION", Toast.LENGTH_SHORT).show();
