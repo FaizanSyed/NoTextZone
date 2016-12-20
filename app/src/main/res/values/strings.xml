@@ -1,4 +1,6 @@
 <resources>
     <string name="app_name">No Text Zone</string>
     <string name="send">SEND</string>
+    <string name="driving_mode">Driving Mode</string>
+    <string name="default_message">Hey! I am driving right now. I will text you as soon as I reach my destination!</string>
 </resources>
