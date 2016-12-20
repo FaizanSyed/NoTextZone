@@ -1,5 +1,6 @@
 package com.example.faizan.notextzone;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     SmsManager smsManager;
     Button sendButton;
     Switch drivingSwitch;
+    Button editButton;
     private static final String TAG = "SEND";
 
     @Override
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
         smsManager = SmsManager.getDefault();
         sendButton = (Button) findViewById(R.id.sendButton);
         drivingSwitch = (Switch) findViewById(R.id.drivingSwitch);
+        editButton = (Button) findViewById(R.id.editButton);
 
         drivingSwitch.setOnCheckedChangeListener(
                 new CompoundButton.OnCheckedChangeListener() {
@@ -36,6 +39,16 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             Toast.makeText(MainActivity.this, "Driving mode is OFF!", Toast.LENGTH_SHORT).show();
                         }
+                    }
+                }
+        );
+
+        editButton.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent toEdit = new Intent(MainActivity.this, EditActivity.class);
+                        startActivity(toEdit);
                     }
                 }
         );
