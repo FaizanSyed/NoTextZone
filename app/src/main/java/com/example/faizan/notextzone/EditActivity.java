@@ -39,7 +39,7 @@ public class EditActivity extends AppCompatActivity {
                         SharedPreferences.Editor smEditor = savedMessages.edit();
                         smEditor.putString("customMessage", editMessage.getText().toString());
                         smEditor.apply();
-                        Toast.makeText(EditActivity.this, "Custom Message Saved!", Toast.LENGTH_SHORT);
+                        Toast.makeText(EditActivity.this, "Custom Message Saved!", Toast.LENGTH_LONG).show();
                         startActivity(toMain);
                     }
                 }

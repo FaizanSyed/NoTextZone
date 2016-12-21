@@ -45,8 +45,16 @@ public class MainActivity extends AppCompatActivity {
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                         if(isChecked){
                             Toast.makeText(MainActivity.this, "Driving mode is ON!", Toast.LENGTH_SHORT).show();
+
+                            Intent toSmsService = new Intent(MainActivity.this, SmsService.class);
+                            toSmsService.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startService(toSmsService);
                         } else {
                             Toast.makeText(MainActivity.this, "Driving mode is OFF!", Toast.LENGTH_SHORT).show();
+
+                            Intent toSmsService = new Intent(MainActivity.this, SmsService.class);
+                            toSmsService.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            stopService(toSmsService);
                         }
                     }
                 }
@@ -66,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 try {
-                    smsManager.sendTextMessage("16477021419", null, "HEY THERE BUD", null, null);
+                    smsManager.sendTextMessage("5556", null, "HEY THERE BUD", null, null);
                 } catch (SecurityException se){
                     Log.i(TAG, "Don't have permission!");
                     Toast.makeText(MainActivity.this, "DON'T HAVE PERMISSION", Toast.LENGTH_SHORT).show();
