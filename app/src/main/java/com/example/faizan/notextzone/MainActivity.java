@@ -35,9 +35,11 @@ public class MainActivity extends AppCompatActivity {
         editButton = (Button) findViewById(R.id.editButton);
         message = (TextView) findViewById(R.id.message);
 
-        SharedPreferences savedMessages = getSharedPreferences("savedMessages", Context.MODE_PRIVATE);
+        final SharedPreferences savedMessages = getSharedPreferences("savedMessages", Context.MODE_PRIVATE);
         String customMessage = savedMessages.getString("customMessage", getResources().getString(R.string.default_message));
+
         message.setText(customMessage);
+        drivingSwitch.setChecked(savedMessages.getBoolean("isChecked", false));
 
         drivingSwitch.setOnCheckedChangeListener(
                 new CompoundButton.OnCheckedChangeListener() {
@@ -46,11 +48,19 @@ public class MainActivity extends AppCompatActivity {
                         if(isChecked){
                             Toast.makeText(MainActivity.this, "Driving mode is ON!", Toast.LENGTH_SHORT).show();
 
+                            SharedPreferences.Editor smEditor = savedMessages.edit();
+                            smEditor.putBoolean("isChecked", true);
+                            smEditor.apply();
+
                             Intent toSmsService = new Intent(MainActivity.this, SmsService.class);
                             toSmsService.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startService(toSmsService);
                         } else {
                             Toast.makeText(MainActivity.this, "Driving mode is OFF!", Toast.LENGTH_SHORT).show();
+
+                            SharedPreferences.Editor smEditor = savedMessages.edit();
+                            smEditor.putBoolean("isChecked", false);
+                            smEditor.apply();
 
                             Intent toSmsService = new Intent(MainActivity.this, SmsService.class);
                             toSmsService.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
