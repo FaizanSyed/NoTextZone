@@ -13,10 +13,10 @@ import android.widget.Toast;
 
 public class EditActivity extends AppCompatActivity {
 
-    EditText editMessage;
-    Button confirmButton;
-    Button defaultButton;
-    Button cancelButton;
+    private EditText editMessage;
+    private Button confirmButton;
+    private Button defaultButton;
+    private Button cancelButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -15,9 +15,9 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView message;
-    Switch drivingSwitch;
-    Button editButton;
+    private TextView message;
+    private Switch drivingSwitch;
+    private Button editButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
                             smEditor.putBoolean("isChecked", true);
                             smEditor.apply();
 
-                            Intent toSmsService = new Intent(MainActivity.this, SmsService.class);
-                            toSmsService.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            startService(toSmsService);
+                            Intent toRespondService = new Intent(MainActivity.this, RespondService.class);
+                            toRespondService.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startService(toRespondService);
                         } else {
                             Toast.makeText(MainActivity.this, "Driving mode is OFF!", Toast.LENGTH_SHORT).show();
 
@@ -55,9 +55,9 @@ public class MainActivity extends AppCompatActivity {
                             smEditor.putBoolean("isChecked", false);
                             smEditor.apply();
 
-                            Intent toSmsService = new Intent(MainActivity.this, SmsService.class);
-                            toSmsService.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            stopService(toSmsService);
+                            Intent toRespondService = new Intent(MainActivity.this, RespondService.class);
+                            toRespondService.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            stopService(toRespondService);
                         }
                     }
                 }
