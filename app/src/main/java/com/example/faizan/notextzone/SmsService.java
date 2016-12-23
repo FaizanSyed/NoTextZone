@@ -14,13 +14,13 @@ import android.telephony.SmsMessage;
 import android.util.Log;
 
 public class SmsService extends Service {
-    //private static SMSReceiver mSmsReceiver;
+    private SMSReceiver smsReceiver;
     private static IntentFilter mIntentFilter;
-    SharedPreferences savedMessages = getSharedPreferences("savedMessages", Context.MODE_PRIVATE);
-    String customMessage = savedMessages.getString("customMessage", getResources().getString(R.string.default_message));
-    private static final String rTag = "onReceive";
-    private static final String sInfo = "SenderInfo";
-    private static final String dTag = "DEBUG";
+    private static SharedPreferences savedMessages;
+    private static String customMessage;
+    private static final String R_TAG = "onReceive";
+    private static final String S_INFO = "SenderInfo";
+    private static final String D_TAG = "DEBUG";
 
     @Nullable
     @Override
@@ -32,10 +32,14 @@ public class SmsService extends Service {
     public void onCreate() {
         super.onCreate();
 
-        Log.i(dTag, "SmsService onCreate");
-        //mSmsReceiver = new SMSReceiver();
+        savedMessages = getSharedPreferences("savedMessages", Context.MODE_PRIVATE);
+        customMessage = savedMessages.getString("customMessage", getResources().getString(R.string.default_message));
+
+        Log.i(D_TAG, "SmsService onCreate");
         mIntentFilter = new IntentFilter();
         mIntentFilter.addAction("android.provider.Telephony.SMS_RECEIVED");
+        smsReceiver = new SMSReceiver();
+        registerReceiver(smsReceiver, mIntentFilter);
     }
 
     public static class SMSReceiver extends BroadcastReceiver {
@@ -54,22 +58,25 @@ public class SmsService extends Service {
                             SmsMessage unreadSms = SmsMessage.createFromPdu((byte[]) pdus[i]);
                             String senderNumber = unreadSms.getOriginatingAddress();
                             String senderMessage = unreadSms.getMessageBody();
-                            Log.i(sInfo, senderNumber + " " + senderMessage);
+                            Log.i(S_INFO, senderNumber + " " + senderMessage);
 
                             try{
-                                smsManager.sendTextMessage(senderNumber, null, senderMessage, null, null);
+                                smsManager.sendTextMessage(senderNumber, null, customMessage, null, null);
                             }catch(Exception e){
-                                Log.d(dTag, e.getMessage());
+                                Log.d(D_TAG, e.getMessage());
                             }
                         }
                     }
                 }
             }catch (Exception e){
-                Log.d(rTag, e.getMessage());
+                Log.d(R_TAG, e.getMessage());
             }
-            //mSmsReceiver = new SMSReceiver();
-            mIntentFilter = new IntentFilter();
-            mIntentFilter.addAction("android.provider.Telephony.SMS_RECEIVED");
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        unregisterReceiver(smsReceiver);
+        super.onDestroy();
     }
 }
