@@ -29,9 +29,6 @@ public class RespondServiceManager {
         toRespondService.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startService(toRespondService);
 
-        //Set switch to ON
-        //MainActivity.setDrivingSwitch(true);
-
         //Create Notification
         DrivingNotification.createNotif(context);
     }
@@ -51,11 +48,6 @@ public class RespondServiceManager {
         toRespondService = new Intent(context, RespondService.class);
         toRespondService.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.stopService(toRespondService);
-
-        //Log.d("stopRespondService", "Before setDrivingSwitch");
-        //Set switch to OFF
-        //MainActivity.setDrivingSwitch(false);
-        //Log.d("stopRespondService", "After setDrivingSwitch");
 
         //Cancel Notification
         Log.d("stopRespondService", "Before cancel Notif");
