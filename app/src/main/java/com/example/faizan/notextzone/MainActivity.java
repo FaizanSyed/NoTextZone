@@ -3,13 +3,19 @@ package com.example.faizan.notextzone;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
+
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -20,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private static Button editButton;
     private static SharedPreferences savedMessages;
     private static String customMessage;
+    private static boolean slackAuthenticated;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +42,28 @@ public class MainActivity extends AppCompatActivity {
 
         message.setText(customMessage);
         drivingSwitch.setChecked(savedMessages.getBoolean("isChecked", false));
+        slackAuthenticated = savedMessages.getBoolean("slackAuthenticated", false);
 
+        if(isSlackInstalled(MainActivity.this) && !slackAuthenticated){
+            Log.d("Main_OnCreate", "toSlackAuthen");
+            Intent toSlackAuthentication = new Intent(MainActivity.this, SlackAuthentication.class);
+            startActivity(toSlackAuthentication);
+        }
+
+        setListeners(MainActivity.this);
+    }
+
+    public static boolean isSlackInstalled(Context context){
+        try {
+            context.getPackageManager().getApplicationInfo("com.Slack", 0);
+            return true;
+        } catch (PackageManager.NameNotFoundException e){
+            Log.d("isSlackInstalled", "FALSE");
+            return false;
+        }
+    }
+
+    public static void setListeners(final Context context){
         drivingSwitch.setOnCheckedChangeListener(
                 new CompoundButton.OnCheckedChangeListener() {
                     @Override
@@ -43,12 +71,12 @@ public class MainActivity extends AppCompatActivity {
                         if(isChecked){
 
                             //Start RespondService
-                            RespondServiceManager.startRespondService(MainActivity.this);
+                            RespondServiceManager.startRespondService(context);
 
                         } else {
 
                             //Stop RespondService
-                            RespondServiceManager.stopRespondService(MainActivity.this);
+                            RespondServiceManager.stopRespondService(context);
 
                         }
                     }
@@ -59,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent toEdit = new Intent(MainActivity.this, EditActivity.class);
-                        startActivity(toEdit);
+                        Intent toEdit = new Intent(context, EditActivity.class);
+                        context.startActivity(toEdit);
                     }
                 }
         );

@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,6 +33,23 @@ public class EditActivity extends AppCompatActivity {
         final SharedPreferences savedMessages = getSharedPreferences("savedMessages", Context.MODE_PRIVATE);
         String customMessage = savedMessages.getString("customMessage", getResources().getString(R.string.default_message));
         editMessage.setText(customMessage, TextView.BufferType.EDITABLE);
+
+        editMessage.addTextChangedListener( new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                if(s.toString().equals("")){
+                    confirmButton.setEnabled(false);
+                } else {
+                    confirmButton.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
 
         confirmButton.setOnClickListener(
                 new View.OnClickListener() {

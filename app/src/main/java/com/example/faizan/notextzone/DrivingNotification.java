@@ -41,8 +41,14 @@ public class DrivingNotification {
 
     }
 
-    public static void cancelNotif(){
+    public static void cancelNotif(Context context){
         //Unissue Notification
-        drivingNotifMgr.cancel(drivingNotifId);
+        if(drivingNotifMgr==null){
+            drivingNotifId = 5;
+            drivingNotifMgr = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            drivingNotifMgr.cancel(drivingNotifId);
+        } else {
+            drivingNotifMgr.cancel(drivingNotifId);
+        }
     }
 }

@@ -51,6 +51,6 @@ public class RespondServiceManager {
 
         //Cancel Notification
         Log.d("stopRespondService", "Before cancel Notif");
-        DrivingNotification.cancelNotif();
+        DrivingNotification.cancelNotif(context);
     }
 }
