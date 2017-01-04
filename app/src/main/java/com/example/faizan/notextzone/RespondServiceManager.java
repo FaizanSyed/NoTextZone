@@ -19,18 +19,21 @@ public class RespondServiceManager {
 
         Toast.makeText(context, "Driving mode is ON!", Toast.LENGTH_SHORT).show();
 
-        //Save setting of switch
+        // Save setting of switch
         smEditor = savedMessages.edit();
         smEditor.putBoolean("isChecked", true);
         smEditor.apply();
 
-        //Start service
+        // Start service
         toRespondService = new Intent(context, RespondService.class);
         toRespondService.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startService(toRespondService);
 
-        //Create Notification
+        // Create Notification
         DrivingNotification.createNotif(context);
+
+        // Set Snooze on Slack
+        SlackSnooze.set();
     }
 
     public static void stopRespondService(Context context){
@@ -52,5 +55,8 @@ public class RespondServiceManager {
         //Cancel Notification
         Log.d("stopRespondService", "Before cancel Notif");
         DrivingNotification.cancelNotif(context);
+
+        // End Snooze on Slack
+        SlackSnooze.end();
     }
 }

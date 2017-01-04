@@ -1,5 +1,6 @@
 package com.example.faizan.notextzone;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -44,13 +45,19 @@ public class MainActivity extends AppCompatActivity {
         drivingSwitch.setChecked(savedMessages.getBoolean("isChecked", false));
         slackAuthenticated = savedMessages.getBoolean("slackAuthenticated", false);
 
-        if(isSlackInstalled(MainActivity.this) && !slackAuthenticated){
-            Log.d("Main_OnCreate", "toSlackAuthen");
-            Intent toSlackAuthentication = new Intent(MainActivity.this, SlackAuthentication.class);
-            startActivity(toSlackAuthentication);
-        }
+        runSlackAuth(MainActivity.this);
 
         setListeners(MainActivity.this);
+    }
+
+
+
+    public void runSlackAuth(Context context){
+        if(isSlackInstalled(context) && !slackAuthenticated){
+            Log.d("Main_OnCreate", "toSlackAuthen");
+            Intent toSlackAuthentication = new Intent(context, SlackAuthentication.class);
+            startActivityForResult(toSlackAuthentication, 1);
+        }
     }
 
     public static boolean isSlackInstalled(Context context){
@@ -94,6 +101,25 @@ public class MainActivity extends AppCompatActivity {
         );
     }
 
+    public static void setDrivingSwitch(boolean setting){
+        drivingSwitch.setChecked(setting);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("Main_onActivityRes", "onActivityResult");
+        if(requestCode == 1){
+            Log.d("Main_onActivityRes", "requestCode: " + requestCode);
+            if(resultCode == Activity.RESULT_OK){
+                Log.d("Main_onActivityRes", "resultCode: " + resultCode);
+                SlackConstants.SLACK_TOKEN = savedMessages.getString("access_token", "");
+                Log.d("Main_onActivityRes", SlackConstants.SLACK_TOKEN);
+            } else if(resultCode == Activity.RESULT_CANCELED){
+                Log.d("Main_onActivityRes", "SLACK AUTHENTICATION FAILED!");
+            }
+        }
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -104,9 +130,5 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         active = false;
         super.onDestroy();
-    }
-
-    public static void setDrivingSwitch(boolean setting){
-        drivingSwitch.setChecked(setting);
     }
 }

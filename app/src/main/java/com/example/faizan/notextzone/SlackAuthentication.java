@@ -68,11 +68,8 @@ public class SlackAuthentication extends AppCompatActivity {
                             smEdit.putString("code", authCode);
                             smEdit.apply();
                             new TokenGet().execute();
-                            Toast.makeText(SlackAuthentication.this, "Authorization Code is:" + authCode, Toast.LENGTH_LONG).show();
 
                             Log.d("SlackAuthen_WVC_OPF", "toMain");
-//                            Intent toMain = new Intent(SlackAuthentication.this, MainActivity.class);
-//                            startActivity(toMain);
                         } else if(url.contains("error=access_denied")) {
                             Log.d("SlackAuthen_WVC_OPF", "ACCESS DENIED HERE");
                             authComplete = true;
@@ -81,11 +78,13 @@ public class SlackAuthentication extends AppCompatActivity {
                             SharedPreferences.Editor smEdit = savedMessages.edit();
                             smEdit.putString("access_token", null);
                             smEdit.putString("scope", null);
+                            smEdit.putBoolean("slackAuthenticated", true);
                             smEdit.apply();
 
                             Log.d("SlackAuthen_WVC_OPF", "toMain");
-                            Intent toMain = new Intent(SlackAuthentication.this, MainActivity.class);
-                            startActivity(toMain);
+                            Intent returnToMain = new Intent();
+                            setResult(Activity.RESULT_CANCELED);
+                            SlackAuthentication.this.finish();
                         }
                     }
 
@@ -135,13 +134,18 @@ public class SlackAuthentication extends AppCompatActivity {
                     smEdit.putBoolean("slackAuthenticated", true);
                     smEdit.apply();
 
-                    Log.d("playin for the bucks", token);
+                    Intent returnToMain = new Intent();
+                    setResult(Activity.RESULT_OK, returnToMain);
                     SlackAuthentication.this.finish();
                 } catch (JSONException e){
                     Log.e("JSONException", e.getMessage());
                 }
             } else {
                 Toast.makeText(SlackAuthentication.this, "Network Error", Toast.LENGTH_LONG).show();
+
+                Intent returnToMain = new Intent();
+                setResult(Activity.RESULT_CANCELED, returnToMain);
+                SlackAuthentication.this.finish();
             }
         }
     }
