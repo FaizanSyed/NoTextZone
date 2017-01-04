@@ -1,1 +1,1 @@
-Send message while you are driving
+No Text Zone is an Android application that allows users to put their phone into "Driving Mode" when they are driving. When the user's phone is in "Driving Mode" any SMS messages recieved will result in an automatic and customizable SMS reply informing the sender that the user is currently driving. Using the Slack API, toggling "Driving Mode" will toggle the Do Not Disturb settings for the user's current Slack team.
