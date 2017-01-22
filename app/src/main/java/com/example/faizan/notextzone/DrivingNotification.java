@@ -26,7 +26,7 @@ public class DrivingNotification {
         drivingNotifBldr = (NotificationCompat.Builder) new NotificationCompat.Builder(context)
                 .setSmallIcon(R.drawable.steeringwheel)
                 .setContentTitle("No Text Zone")
-                .setContentText("Driving mode it ON!")
+                .setContentText("Driving mode is ON!")
                 .addAction(R.drawable.smallmanwalking, "Turn OFF driving mode", pToNitificationReceiver)
                 .setOngoing(true);
         drivingNotifMgr = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);

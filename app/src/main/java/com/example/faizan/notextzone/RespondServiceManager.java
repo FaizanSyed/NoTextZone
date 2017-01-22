@@ -33,6 +33,7 @@ public class RespondServiceManager {
         DrivingNotification.createNotif(context);
 
         // Set Snooze on Slack
+        Log.d("toSetSnooze", "Here");
         SlackSnooze.set();
     }
 
@@ -57,6 +58,7 @@ public class RespondServiceManager {
         DrivingNotification.cancelNotif(context);
 
         // End Snooze on Slack
+        Log.d("toEndSnooze", "Here");
         SlackSnooze.end();
     }
 }

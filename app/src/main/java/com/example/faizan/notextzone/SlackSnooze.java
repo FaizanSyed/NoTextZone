@@ -23,14 +23,17 @@ public class SlackSnooze {
     }
 
     public static void end() {
+        Log.d("end","Before Exec");
         new EndSnooze().execute();
     }
 
     private static class SetSnooze extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... params) {
+            Log.d("SetSnooze_DIB", "Top");
             // Check if Slack API Token has been generated
             if (SlackConstants.SLACK_TOKEN != null) {
+                Log.d("SetSnooze_DIB", "After token check");
                 Log.d("Slack_token", SlackConstants.SLACK_TOKEN);
                 // Create HTTP Client and Post
                 HttpClient httpclient = new DefaultHttpClient();
@@ -60,8 +63,10 @@ public class SlackSnooze {
     private static class EndSnooze extends AsyncTask<Void, Void, Void>{
         @Override
         protected Void doInBackground(Void... params) {
+            Log.d("EndSnooze_DIB", "Top");
             // Check if Slack API Token has been generated
             if (SlackConstants.SLACK_TOKEN != null) {
+                Log.d("EndSnooze_DIB", "After token check");
                 // Create HTTP Client and Post
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpPost httppost = new HttpPost("https://slack.com/api/dnd.endSnooze");

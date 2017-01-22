@@ -16,8 +16,6 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import java.util.List;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -57,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
             Log.d("Main_OnCreate", "toSlackAuthen");
             Intent toSlackAuthentication = new Intent(context, SlackAuthentication.class);
             startActivityForResult(toSlackAuthentication, 1);
+        }
+        if(savedMessages.contains("access_token")){
+            SlackConstants.SLACK_TOKEN = savedMessages.getString("access_token", "");
         }
     }
 

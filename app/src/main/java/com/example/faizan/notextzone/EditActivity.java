@@ -25,7 +25,6 @@ public class EditActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
 
-        final Intent toMain = new Intent(EditActivity.this, MainActivity.class);
         confirmButton = (Button) findViewById(R.id.confirmButton);
         defaultButton = (Button) findViewById(R.id.defaultButton);
         cancelButton = (Button) findViewById(R.id.cancelButton);
@@ -59,7 +58,7 @@ public class EditActivity extends AppCompatActivity {
                         smEditor.putString("customMessage", editMessage.getText().toString());
                         smEditor.apply();
                         Toast.makeText(EditActivity.this, "Custom Message Saved!", Toast.LENGTH_LONG).show();
-                        startActivity(toMain);
+                        finish();
                     }
                 }
         );
@@ -77,7 +76,7 @@ public class EditActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(toMain);
+                        finish();
                     }
                 }
         );
